@@ -11,6 +11,25 @@ const Home = () => {
     transition: { duration: 0.6 },
   };
 
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const slideInLeft = {
+    initial: { opacity: 0, x: -60 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8, ease: "easeOut" }
+  };
+
+  const slideInRight = {
+    initial: { opacity: 0, x: 60 },
+    animate: { opacity: 1, x: 0 },
+    transition: { duration: 0.8, ease: "easeOut" }
+  };
   return (
     <div className="pt-16">
       {/* Hero Section */}
@@ -23,38 +42,99 @@ const Home = () => {
           backgroundPosition: "center",
         }}
       >
+        {/* Animated background particles */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 h-2 bg-white/20 rounded-full"
+              initial={{
+                x: Math.random() * window.innerWidth,
+                y: Math.random() * window.innerHeight,
+              }}
+              animate={{
+                y: [null, -100, window.innerHeight + 100],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                ease: "linear",
+                delay: Math.random() * 10,
+              }}
+            />
+          ))}
+        </div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            <h1 className="text-5xl lg:text-7xl font-bold mb-8 leading-tight">
+            <motion.h1 
+              className="text-5xl lg:text-7xl font-bold mb-8 leading-tight"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               Accelerating Innovation Through
-              <span className="block text-green-400">
+              <motion.span 
+                className="block text-green-400"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+              >
                 Ethical Clinical Research
-              </span>
-            </h1>
-            <p className="text-xl lg:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed">
+              </motion.span>
+            </motion.h1>
+            <motion.p 
+              className="text-xl lg:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
               We are committed to accelerating innovation through ethical,
               efficient, and patient-centric clinical research that transforms
               healthcare worldwide.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link
-                to="/contact"
-                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center"
+            </motion.p>
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-6 justify-center"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
               >
+                <Link
+                  to="/contact"
+                  className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-2xl flex items-center justify-center group"
+                >
                 Partner With Us
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-              <Link
-                to="/services"
-                className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105"
+                  <motion.div
+                    className="ml-2"
+                    animate={{ x: [0, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  </motion.div>
+                </Link>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
               >
+                <Link
+                  to="/services"
+                  className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-2xl"
+                >
                 Our Services
-              </Link>
-            </div>
+                </Link>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -62,17 +142,33 @@ const Home = () => {
       {/* Mission Statement */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">
+          <motion.div 
+            {...fadeInUp} 
+            className="text-center max-w-4xl mx-auto"
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <motion.h2 
+              className="text-4xl font-bold text-gray-900 mb-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               Our Mission
-            </h2>
-            <p className="text-xl text-gray-700 leading-relaxed">
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-gray-700 leading-relaxed"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               We are committed to accelerating innovation through ethical,
               efficient, and patient-centric clinical research. Our global
               expertise spans across multiple therapeutic areas, delivering
               cutting-edge solutions that advance medical knowledge and improve
               patient outcomes worldwide.
-            </p>
+            </motion.p>
           </motion.div>
         </div>
       </section>
@@ -115,7 +211,11 @@ const Home = () => {
       {/* Services Preview */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center mb-16">
+          <motion.div 
+            {...fadeInUp} 
+            className="text-center mb-16"
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Our Core Services
             </h2>
@@ -125,7 +225,13 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {[
               {
                 title: "Clinical Trial Management",
@@ -150,16 +256,38 @@ const Home = () => {
               .map((service, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 group cursor-pointer"
+                  variants={{
+                    initial: { opacity: 0, y: 60, scale: 0.8 },
+                    animate: { opacity: 1, y: 0, scale: 1 }
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    y: -10,
+                    transition: { duration: 0.3 }
+                  }}
+                  className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 group cursor-pointer border border-transparent hover:border-blue-200"
                 >
-                  <div className="text-center mb-6">
-                    <div className="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <motion.div 
+                    className="text-center mb-6"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.div 
+                      className="text-6xl mb-4"
+                      animate={{ 
+                        rotate: [0, 5, -5, 0],
+                        scale: [1, 1.05, 1]
+                      }}
+                      transition={{ 
+                        duration: 2, 
+                        repeat: Infinity, 
+                        repeatDelay: 3 
+                      }}
+                    >
                       {service.icon}
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-4">
                     {service.title}
                   </h3>
@@ -168,16 +296,31 @@ const Home = () => {
                   </p>
                 </motion.div>
               ))}
-          </div>
+          </motion.div>
 
-          <motion.div {...fadeInUp} className="text-center mt-12">
-            <Link
-              to="/services"
-              className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-lg"
+          <motion.div 
+            {...fadeInUp} 
+            className="text-center mt-12"
+            viewport={{ once: true }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
+              <Link
+                to="/services"
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-lg group transition-all duration-300"
+              >
               View All Services
-              <ChevronRight className="ml-2 w-5 h-5" />
-            </Link>
+                <motion.div
+                  className="ml-2"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </motion.div>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -185,21 +328,51 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 bg-blue-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div {...fadeInUp}>
-            <h2 className="text-4xl font-bold mb-6">
+          <motion.div 
+            {...fadeInUp}
+            viewport={{ once: true }}
+          >
+            <motion.h2 
+              className="text-4xl font-bold mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
               Ready to Advance Your Clinical Research?
-            </h2>
-            <p className="text-xl mb-8 max-w-3xl mx-auto">
+            </motion.h2>
+            <motion.p 
+              className="text-xl mb-8 max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
               Partner with Verda Solutions for world-class clinical trial
               management and regulatory expertise.
-            </p>
-            <Link
-              to="/contact"
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 inline-flex items-center"
+            </motion.p>
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
+              <Link
+                to="/contact"
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-2xl inline-flex items-center group"
+              >
               Start Your Partnership
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Link>
+                <motion.div
+                  className="ml-2"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </motion.div>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>

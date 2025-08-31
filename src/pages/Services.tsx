@@ -21,6 +21,13 @@ const Services = () => {
     transition: { duration: 0.6 },
   };
 
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
   const serviceCategories = [
     {
       id: "clinical-trial",
@@ -72,8 +79,26 @@ const Services = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center">
-            <div className="text-6xl mb-6">🧪</div>
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-center"
+          >
+            <motion.div 
+              className="text-6xl mb-6"
+              animate={{ 
+                rotate: [0, 10, -10, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                repeatDelay: 2 
+              }}
+            >
+              🧪
+            </motion.div>
             <h1 className="text-5xl font-bold mb-6">Services</h1>
             <p className="text-xl max-w-4xl mx-auto leading-relaxed">
               Comprehensive clinical research solutions designed to accelerate
@@ -86,7 +111,11 @@ const Services = () => {
       {/* Main Service Categories with Tabs */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center mb-16">
+          <motion.div 
+            {...fadeInUp} 
+            className="text-center mb-16"
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Our Service Offerings
             </h2>
@@ -97,62 +126,104 @@ const Services = () => {
           </motion.div>
 
           {/* Service Category Tabs */}
-          <div className="flex justify-center mb-12">
-            <div className="flex bg-white rounded-lg p-2 shadow-lg">
+          <motion.div 
+            className="flex justify-center mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex bg-white rounded-lg p-2 shadow-xl">
               {serviceCategories.map((category) => (
-                <button
+                <motion.button
                   key={category.id}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   onClick={() => setActiveTab(category.id)}
-                  className={`px-8 py-4 rounded-lg font-semibold transition-all duration-300 ${
+                  className={`px-8 py-4 rounded-lg font-semibold transition-all duration-500 ${
                     activeTab === category.id
-                      ? "bg-blue-600 text-white shadow-md"
+                      ? "bg-blue-600 text-white shadow-lg"
                       : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                   }`}
                 >
                   <span className="text-2xl mr-3">{category.icon}</span>
                   {category.title}
-                </button>
+                </motion.button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Active Category Content */}
           {activeCategory && (
             <motion.div
               key={activeCategory.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
               className={`bg-gradient-to-r ${
                 activeCategory.color === "blue"
                   ? "from-blue-500 to-blue-600"
                   : "from-green-500 to-green-600"
-              } text-white rounded-2xl p-12 shadow-xl`}
+              } text-white rounded-2xl p-12 shadow-2xl`}
             >
-              <div className="text-center mb-8">
-                <div className="text-8xl mb-6">{activeCategory.icon}</div>
+              <motion.div 
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <motion.div 
+                  className="text-8xl mb-6"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    rotate: [0, 5, -5, 0]
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    repeatDelay: 2 
+                  }}
+                >
+                  {activeCategory.icon}
+                </motion.div>
                 <h3 className="text-4xl font-bold mb-4">
                   {activeCategory.title}
                 </h3>
                 <p className="text-xl leading-relaxed max-w-4xl mx-auto">
                   {activeCategory.description}
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+              <motion.div 
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12"
+                variants={staggerContainer}
+                initial="initial"
+                animate="animate"
+              >
                 {activeCategory.services.map((service, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.4 }}
-                    className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg p-4 hover:bg-white/20 transition-all duration-300"
+                    variants={{
+                      initial: { opacity: 0, x: -40, scale: 0.8 },
+                      animate: { opacity: 1, x: 0, scale: 1 }
+                    }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    whileHover={{ 
+                      scale: 1.05, 
+                      x: 10,
+                      transition: { duration: 0.3 }
+                    }}
+                    className="flex items-center bg-white/10 backdrop-blur-sm rounded-lg p-4 hover:bg-white/25 transition-all duration-500 cursor-pointer"
                   >
-                    <div className="w-3 h-3 bg-white rounded-full mr-4 flex-shrink-0"></div>
+                    <motion.div 
+                      className="w-3 h-3 bg-white rounded-full mr-4 flex-shrink-0"
+                      whileHover={{ scale: 1.5 }}
+                      transition={{ duration: 0.3 }}
+                    />
                     <span className="text-white font-medium">{service}</span>
                   </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </div>
@@ -161,7 +232,10 @@ const Services = () => {
       {/* CTA Section */}
       <section className="py-20 bg-blue-900 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div {...fadeInUp}>
+          <motion.div 
+            {...fadeInUp}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold mb-6">
               Ready to Start Your Clinical Research Journey?
             </h2>
@@ -169,12 +243,17 @@ const Services = () => {
               Let us help you navigate the complexities of clinical research
               with our comprehensive service offerings and expert guidance.
             </p>
-            <Link
-              to="/contact"
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 inline-block"
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
+              <Link
+                to="/contact"
+                className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-2xl inline-block"
+              >
               Discuss Your Project
-            </Link>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>

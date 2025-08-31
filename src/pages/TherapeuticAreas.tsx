@@ -9,6 +9,13 @@ const TherapeuticAreas = () => {
     transition: { duration: 0.6 },
   };
 
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
   const therapeuticAreas = [
     {
       icon: Heart,
@@ -95,8 +102,26 @@ const TherapeuticAreas = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center">
-            <div className="text-6xl mb-6">🩺</div>
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-center"
+          >
+            <motion.div 
+              className="text-6xl mb-6"
+              animate={{ 
+                rotate: [0, 15, -15, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity, 
+                repeatDelay: 2 
+              }}
+            >
+              🩺
+            </motion.div>
             <h1 className="text-5xl font-bold mb-6">Therapeutic Areas</h1>
             <p className="text-xl max-w-4xl mx-auto leading-relaxed">
               Specialized expertise across diverse therapeutic domains,
@@ -110,7 +135,11 @@ const TherapeuticAreas = () => {
       {/* Introduction */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center max-w-4xl mx-auto">
+          <motion.div 
+            {...fadeInUp} 
+            className="text-center max-w-4xl mx-auto"
+            viewport={{ once: true }}
+          >
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Our Areas of Expertise
             </h2>
@@ -128,22 +157,40 @@ const TherapeuticAreas = () => {
       {/* Main Therapeutic Areas */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+          >
             {therapeuticAreas.map((area, index) => {
               const IconComponent = area.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.6 }}
-                  className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  variants={{
+                    initial: { opacity: 0, y: 60, scale: 0.8 },
+                    animate: { opacity: 1, y: 0, scale: 1 }
+                  }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  whileHover={{ 
+                    scale: 1.05, 
+                    y: -10,
+                    transition: { duration: 0.3 }
+                  }}
+                  className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-transparent hover:border-blue-200 group"
                 >
-                  <div
-                    className={`w-16 h-16 ${area.bgColor} rounded-lg flex items-center justify-center mb-6`}
+                  <motion.div
+                    whileHover={{ 
+                      scale: 1.2, 
+                      rotate: 10,
+                      transition: { duration: 0.3 }
+                    }}
+                    className={`w-16 h-16 ${area.bgColor} rounded-lg flex items-center justify-center mb-6 group-hover:shadow-lg transition-all duration-300`}
                   >
                     <IconComponent className={`w-8 h-8 ${area.color}`} />
-                  </div>
+                  </motion.div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">
                     {area.title}
                   </h3>
@@ -151,32 +198,52 @@ const TherapeuticAreas = () => {
                     {area.description}
                   </p>
 
-                  <div className="space-y-2">
+                  <motion.div 
+                    className="space-y-2"
+                    variants={staggerContainer}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
+                  >
                     <h4 className="font-semibold text-gray-900 mb-3">
                       Specializations:
                     </h4>
                     {area.specializations.map((spec, specIndex) => (
-                      <div key={specIndex} className="flex items-center">
-                        <div
-                          className={`w-3 h-3 rounded-full mr-3 ${
+                      <motion.div 
+                        key={specIndex} 
+                        className="flex items-center group/item"
+                        variants={{
+                          initial: { opacity: 0, x: -20 },
+                          animate: { opacity: 1, x: 0 }
+                        }}
+                        whileHover={{ x: 10 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.5 }}
+                          transition={{ duration: 0.3 }}
+                          className={`w-3 h-3 rounded-full mr-3 transition-all duration-300 ${
                             area.bulletColor || "bg-gray-800"
                           }`}
-                        ></div>
+                        />
                         <span className="text-gray-700">{spec}</span>
-                      </div>
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div {...fadeInUp}>
+          <motion.div 
+            {...fadeInUp}
+            viewport={{ once: true }}
+          >
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Ready to Advance Your Therapeutic Research?
             </h2>
@@ -184,12 +251,17 @@ const TherapeuticAreas = () => {
               Partner with us to leverage our extensive therapeutic expertise
               and accelerate your clinical research programs.
             </p>
-            <Link
-              to="/contact"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 inline-block"
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
             >
+              <Link
+                to="/contact"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-2xl inline-block"
+              >
               Discuss Your Therapeutic Area
-            </Link>
+              </Link>
+            </motion.div>
           </motion.div>
         </div>
       </section>

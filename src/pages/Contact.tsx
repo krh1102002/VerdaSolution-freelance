@@ -31,6 +31,13 @@ const Contact = () => {
     transition: { duration: 0.6 },
   };
 
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -128,7 +135,12 @@ const Contact = () => {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeInUp} className="text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="text-center"
+          >
             <h1 className="text-5xl font-bold mb-6">Contact Us</h1>
             <p className="text-xl max-w-4xl mx-auto leading-relaxed">
               Ready to start your clinical research journey? Get in touch with
@@ -145,31 +157,54 @@ const Contact = () => {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
-                className="bg-gray-50 p-8 rounded-2xl"
+                initial={{ opacity: 0, x: -60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="bg-gray-50 p-8 rounded-2xl shadow-lg"
               >
                 <h2 className="text-3xl font-bold text-gray-900 mb-8">
                   Send us a Message
                 </h2>
 
                 {status === "success" && (
-                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center"
+                  >
                     <CheckCircle className="w-5 h-5 text-green-600 mr-3" />
                     <p className="text-green-800">{statusMessage}</p>
-                  </div>
+                  </motion.div>
                 )}
 
                 {status === "error" && (
-                  <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center"
+                  >
                     <AlertCircle className="w-5 h-5 text-red-600 mr-3" />
                     <p className="text-red-800">{statusMessage}</p>
-                  </div>
+                  </motion.div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                <motion.form 
+                  onSubmit={handleSubmit} 
+                  className="space-y-6"
+                  variants={staggerContainer}
+                  initial="initial"
+                  animate="animate"
+                >
+                  <motion.div 
+                    className="grid md:grid-cols-2 gap-6"
+                    variants={{
+                      initial: { opacity: 0, y: 30 },
+                      animate: { opacity: 1, y: 0 }
+                    }}
+                  >
                     <div>
                       <label
                         htmlFor="name"
@@ -177,14 +212,16 @@ const Contact = () => {
                       >
                         Full Name *
                       </label>
-                      <input
+                      <motion.input
+                        whileFocus={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
                         type="text"
                         id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"
                         placeholder="Your full name"
                       />
                     </div>
@@ -195,20 +232,28 @@ const Contact = () => {
                       >
                         Email Address *
                       </label>
-                      <input
+                      <motion.input
+                        whileFocus={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
                         type="email"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"
                         placeholder="your.email@company.com"
                       />
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <motion.div 
+                    className="grid md:grid-cols-2 gap-6"
+                    variants={{
+                      initial: { opacity: 0, y: 30 },
+                      animate: { opacity: 1, y: 0 }
+                    }}
+                  >
                     <div>
                       <label
                         htmlFor="phone"
@@ -216,13 +261,15 @@ const Contact = () => {
                       >
                         Phone Number
                       </label>
-                      <input
+                      <motion.input
+                        whileFocus={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
                         type="tel"
                         id="phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"
                         placeholder="+1 (555) 123-4567"
                       />
                     </div>
@@ -233,13 +280,15 @@ const Contact = () => {
                       >
                         Subject *
                       </label>
-                      <select
+                      <motion.select
+                        whileFocus={{ scale: 1.02 }}
+                        transition={{ duration: 0.2 }}
                         id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"
                       >
                         <option value="">Select a subject</option>
                         <option value="clinical-trials">
@@ -254,69 +303,100 @@ const Contact = () => {
                           Partnership Opportunities
                         </option>
                         <option value="other">Other Inquiry</option>
-                      </select>
+                      </motion.select>
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div>
+                  <motion.div
+                    variants={{
+                      initial: { opacity: 0, y: 30 },
+                      animate: { opacity: 1, y: 0 }
+                    }}
+                  >
                     <label
                       htmlFor="message"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
                       Message *
                     </label>
-                    <textarea
+                    <motion.textarea
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       required
                       rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors resize-vertical"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 resize-vertical"
                       placeholder="Please describe your project requirements, therapeutic area of interest, or any specific questions you have..."
                     />
-                  </div>
+                  </motion.div>
 
-                  <div>
+                  <motion.div
+                    variants={{
+                      initial: { opacity: 0, y: 30 },
+                      animate: { opacity: 1, y: 0 }
+                    }}
+                  >
                     <label
                       htmlFor="file"
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
                       Attach Document (Optional)
                     </label>
-                    <input
+                    <motion.input
+                      whileFocus={{ scale: 1.02 }}
+                      transition={{ duration: 0.2 }}
                       type="file"
                       id="file"
                       name="file"
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"
                     />
-                  </div>
+                  </motion.div>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    variants={{
+                      initial: { opacity: 0, y: 30 },
+                      animate: { opacity: 1, y: 0 }
+                    }}
                     type="submit"
                     disabled={status === "loading"}
-                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-colors duration-300 flex items-center justify-center"
+                    className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-2xl flex items-center justify-center group"
                   >
                     {status === "loading" ? (
-                      "Sending..."
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                      />
                     ) : (
                       <>
                         Send Message
-                        <Send className="ml-2 w-5 h-5" />
+                        <motion.div
+                          className="ml-2"
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                        </motion.div>
                       </>
                     )}
-                  </button>
-                </form>
+                  </motion.button>
+                </motion.form>
               </motion.div>
             </div>
 
             {/* Contact Information */}
             <div>
               <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0, x: 60 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 className="space-y-8"
               >
                 <div>
@@ -328,32 +408,67 @@ const Contact = () => {
                     needs and provide tailored solutions for your projects.
                   </p>
 
-                  <div className="space-y-4">
-                    <div className="flex items-center">
-                      <Mail className="w-5 h-5 text-blue-600 mr-3" />
+                  <motion.div 
+                    className="space-y-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <motion.div 
+                      className="flex items-center group"
+                      whileHover={{ x: 10 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.2, rotate: 10 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Mail className="w-5 h-5 text-blue-600 mr-3" />
+                      </motion.div>
                       <span className="text-gray-700">
                         info@verdasolutions.com
                       </span>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 </div>
 
                 <div>
                   <h4 className="text-lg font-semibold text-gray-900 mb-4">
                     Global Offices
                   </h4>
-                  <div className="space-y-4">
+                  <motion.div 
+                    className="space-y-4"
+                    variants={staggerContainer}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true }}
+                  >
                     {offices.map((office, index) => {
                       const IconComponent = office.icon;
                       return (
-                        <div
+                        <motion.div
                           key={index}
-                          className={`p-4 ${office.bgColor} rounded-lg`}
+                          variants={{
+                            initial: { opacity: 0, x: 20 },
+                            animate: { opacity: 1, x: 0 }
+                          }}
+                          whileHover={{ 
+                            scale: 1.05, 
+                            x: 10,
+                            transition: { duration: 0.3 }
+                          }}
+                          className={`p-4 ${office.bgColor} rounded-lg hover:shadow-lg transition-all duration-300 cursor-pointer`}
                         >
                           <div className="flex items-start">
-                            <IconComponent
-                              className={`w-5 h-5 ${office.color} mr-3 mt-0.5`}
-                            />
+                            <motion.div
+                              whileHover={{ scale: 1.2, rotate: 10 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              <IconComponent
+                                className={`w-5 h-5 ${office.color} mr-3 mt-0.5`}
+                              />
+                            </motion.div>
                             <div>
                               <h5 className="font-semibold text-gray-900">
                                 {office.country}
@@ -366,10 +481,10 @@ const Contact = () => {
                               </p>
                             </div>
                           </div>
-                        </div>
+                        </motion.div>
                       );
                     })}
-                  </div>
+                  </motion.div>
                 </div>
               </motion.div>
             </div>
