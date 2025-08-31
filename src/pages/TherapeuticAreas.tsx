@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Heart, Brain, Shield, Zap, Eye, Activity, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -19,6 +18,7 @@ const TherapeuticAreas = () => {
         "Advanced cancer research with focus on innovative treatments and personalized medicine approaches.",
       color: "text-red-600",
       bgColor: "bg-red-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Brain,
@@ -28,6 +28,7 @@ const TherapeuticAreas = () => {
         "Cutting-edge neurological research addressing complex disorders of the central nervous system.",
       color: "text-purple-600",
       bgColor: "bg-purple-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Activity,
@@ -37,6 +38,7 @@ const TherapeuticAreas = () => {
         "Comprehensive cardiovascular research focusing on prevention, treatment, and management.",
       color: "text-red-500",
       bgColor: "bg-red-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Shield,
@@ -46,6 +48,7 @@ const TherapeuticAreas = () => {
         "Critical infectious disease research including vaccine development and therapeutic interventions.",
       color: "text-green-600",
       bgColor: "bg-green-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Zap,
@@ -55,6 +58,7 @@ const TherapeuticAreas = () => {
         "Endocrine system research focusing on hormonal disorders and metabolic conditions.",
       color: "text-yellow-600",
       bgColor: "bg-yellow-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Eye,
@@ -64,6 +68,7 @@ const TherapeuticAreas = () => {
         "Innovative dermatological research addressing skin conditions and cosmetic treatments.",
       color: "text-blue-600",
       bgColor: "bg-blue-50",
+      bulletColor: "bg-gray-800",
     },
     {
       icon: Plus,
@@ -71,8 +76,9 @@ const TherapeuticAreas = () => {
       specializations: ["Obesity", "Metabolic Disorders", "Chronic Conditions"],
       description:
         "Research focused on lifestyle-related health conditions and preventive medicine approaches.",
-      color: "text-indigo-600",
+      color: "text-blue-600",
       bgColor: "bg-indigo-50",
+      bulletColor: "bg-gray-800",
     },
   ];
 
@@ -152,10 +158,9 @@ const TherapeuticAreas = () => {
                     {area.specializations.map((spec, specIndex) => (
                       <div key={specIndex} className="flex items-center">
                         <div
-                          className={`w-3 h-3 rounded-full mr-3 ${area.color.replace(
-                            "text-",
-                            "bg-"
-                          )}`}
+                          className={`w-3 h-3 rounded-full mr-3 ${
+                            area.bulletColor || "bg-gray-800"
+                          }`}
                         ></div>
                         <span className="text-gray-700">{spec}</span>
                       </div>
